@@ -8,3 +8,5 @@
 
 .idea/*
 *.iml
+*.class
+backend/build/*
