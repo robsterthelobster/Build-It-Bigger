@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         if(isConnected()){
             new EndpointsAsyncTask().execute(this);
         }else{
-            Toast.makeText(this, "There's no internet connection!", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "There's no internet connection!", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean isConnected(){
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();

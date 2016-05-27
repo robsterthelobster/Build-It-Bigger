@@ -4,6 +4,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 
+import com.example.robin.myapplication.backend.myApi.model.Joke;
 import com.udacity.gradle.builditbigger.gce.EndpointsAsyncTask;
 
 import java.util.concurrent.ExecutionException;
@@ -32,18 +33,20 @@ public class AsyncTaskTest extends ActivityInstrumentationTestCase2<MainActivity
         EndpointsAsyncTask task = new EndpointsAsyncTask();
         task.execute(activity);
 
-        String result = "";
+        Object result;
         try {
             result = task.get();
-            System.out.println(result);
+            boolean hasJoke = result instanceof Joke;
+            assertTrue(hasJoke);
+            if(hasJoke){
+                String joke = ((Joke) result).getData();
+                assertTrue(!joke.equals(null));
+                assertTrue(!joke.equals(""));
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        assertTrue(!result.equals(null));
-        assertTrue(!result.equals(""));
-
-
     }
 }
