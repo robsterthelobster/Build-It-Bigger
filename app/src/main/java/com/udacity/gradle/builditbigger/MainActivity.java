@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "There's no internet connection!", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private boolean isConnected(){

@@ -14,11 +14,11 @@ import java.util.concurrent.TimeoutException;
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
-public class AsyncTaskTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class JokeTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private MainActivity activity;
 
-    public AsyncTaskTest() {
+    public JokeTest() {
         super(MainActivity.class);
     }
 
@@ -34,19 +34,22 @@ public class AsyncTaskTest extends ActivityInstrumentationTestCase2<MainActivity
         task.execute(activity);
 
         Object result;
+        String joke = "";
+        boolean hasJoke = false;
         try {
             result = task.get();
-            boolean hasJoke = result instanceof Joke;
-            assertTrue(hasJoke);
+            hasJoke = result instanceof Joke;
+
             if(hasJoke){
-                String joke = ((Joke) result).getData();
-                assertTrue(!joke.equals(null));
-                assertTrue(!joke.equals(""));
+                joke = ((Joke) result).getData();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        assertTrue(hasJoke);
+        assertTrue(!joke.equals(null));
+        assertTrue(!joke.equals(""));
     }
 }

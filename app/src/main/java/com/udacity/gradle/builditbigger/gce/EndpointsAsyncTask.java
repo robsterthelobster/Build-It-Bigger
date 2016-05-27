@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.robin.myapplication.backend.myApi.MyApi;
 import com.example.robin.myapplication.backend.myApi.model.Joke;
@@ -25,8 +26,7 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, Joke> {
     private static String LOG_TAG = EndpointsAsyncTask.class.getSimpleName();
     private static MyApi myApiService = null;
     private Context context;
-    // local pc 192.168.1.184
-    //private static String IP = "192.168.1.184";
+
     // emulator
     private static String IP = "10.0.2.2";
 
@@ -56,14 +56,18 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, Joke> {
             return myApiService.getJoke().execute();
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage());
-            return null;
         }
+        return null;
     }
 
     @Override
     protected void onPostExecute(Joke result) {
-        Intent intent = new Intent(context, JokeActivity.class);
-        intent.putExtra(JokeActivity.JOKE_KEY, result.getData());
-        context.startActivity(intent);
+        if(result == null){
+            Toast.makeText(context, "Could not get joke from the server", Toast.LENGTH_LONG).show();
+        }else{
+            Intent intent = new Intent(context, JokeActivity.class);
+            intent.putExtra(JokeActivity.JOKE_KEY, result.getData());
+            context.startActivity(intent);
+        }
     }
 }
