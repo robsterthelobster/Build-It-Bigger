@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +18,17 @@ import com.udacity.gradle.builditbigger.gce.EndpointsAsyncTask;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static ProgressBar spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ((TextView) findViewById(R.id.package_name)).setText(getPackageName());
+
+        spinner = (ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
     }
 
 
@@ -49,20 +55,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchJokeActivity(View view){
-        if(isConnected()){
+        spinner.setVisibility(View.VISIBLE);
+        if(Utility.isConnected(this)){
             new EndpointsAsyncTask().execute(this);
         }else{
             Toast.makeText(this, "There's no internet connection!", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private boolean isConnected(){
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-    }
-
-
 }

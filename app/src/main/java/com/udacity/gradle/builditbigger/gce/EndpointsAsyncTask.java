@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.robin.myapplication.backend.myApi.MyApi;
@@ -15,6 +17,8 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.gradlelessons.robsterthelobster.jokedisplay.JokeActivity;
+import com.udacity.gradle.builditbigger.MainActivity;
+import com.udacity.gradle.builditbigger.MainActivityFragment;
 
 import java.io.IOException;
 
@@ -32,6 +36,7 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, Joke> {
 
     @Override
     protected Joke doInBackground(Context... params) {
+
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -62,6 +67,7 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, Joke> {
 
     @Override
     protected void onPostExecute(Joke result) {
+        MainActivity.spinner.setVisibility(View.GONE);
         if(result == null){
             Toast.makeText(context, "Could not get joke from the server", Toast.LENGTH_LONG).show();
         }else{
