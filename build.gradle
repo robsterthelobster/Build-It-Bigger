@@ -18,6 +18,23 @@ allprojects {
     }
 }
 
-task testAsyncTask {
+task runUdacityTests (
+        dependsOn:[
+        'runServer',
+        'connectedTest',
+        'stopServer'
+])
 
+task runServer{
+    dependsOn ':backend:appengineRun'
 }
+
+task connectedTest{
+    dependsOn ':app:connectedAndroidTest'
+}
+
+task stopServer{
+    dependsOn ':backend:appengineStop'
+}
+
+connectedTest {}.mustRunAfter 'runServer'
